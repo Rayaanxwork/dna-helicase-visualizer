@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DNA Helicase | Interactive Bio-Visualizer</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="particles" id="particles"></div>
+    
+    <nav class="navbar">
+        <div class="logo">
+            <span class="helix-icon">🧬</span>
+            <span class="logo-text">Helicase</span>
+        </div>
+        <div class="nav-links">
+            <a href="#visualizer" class="nav-link active">Visualizer</a>
+            <a href="#analyzer" class="nav-link">Analyzer</a>
+            <a href="#about" class="nav-link">About</a>
+        </div>
+    </nav>
+
+    <main class="main-container">
+        <section class="hero">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    <span class="gradient-text">DNA Sequence</span>
+                    <span class="subtitle">Interactive Bio-Visualizer</span>
+                </h1>
+                <p class="hero-desc">
+                    Explore the building blocks of life through an immersive 3D visualization.
+                    Input any DNA sequence and watch it come alive.
+                </p>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <span class="stat-value" id="gc-content">0%</span>
+                        <span class="stat-label">GC Content</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-value" id="seq-length">0</span>
+                        <span class="stat-label">Base Pairs</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-value" id="molecular-weight">0</span>
+                        <span class="stat-label">MW (Da)</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="helix-container" id="helix-container">
+                <canvas id="dna-canvas"></canvas>
+                <div class="helix-controls">
+                    <button class="control-btn" id="rotate-toggle" title="Toggle Rotation">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+                            <path d="M3 3v5h5"/>
+                        </svg>
+                    </button>
+                    <button class="control-btn" id="speed-up" title="Increase Speed">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="5 4 15 12 5 20 5 4"></polygon>
+                            <line x1="19" y1="5" x2="19" y2="19"></line>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <section class="input-section" id="visualizer">
+            <div class="input-card">
+                <h2 class="section-title">Sequence Input</h2>
+                <div class="input-group">
+                    <textarea 
+                        id="sequence-input" 
+                        class="sequence-input" 
+                        placeholder="Enter DNA sequence (A, T, G, C)...
+
+Example: ATGCGATCGATCGTAGCTAGCTAG"
+                        rows="4"
+                    ></textarea>
+                    <div class="input-actions">
+                        <button class="btn btn-primary" id="visualize-btn">Visualize</button>
+                        <button class="btn btn-secondary" id="generate-btn">Generate Random</button>
+                        <button class="btn btn-ghost" id="clear-btn">Clear</button>
+                    </div>
+                </div>
+                
+                <div class="sequence-preview" id="sequence-preview">
+                    <div class="preview-label">Sequence Preview</div>
+                    <div class="bases-container" id="bases-container">
+                        <!-- Bases rendered here -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="analysis-section" id="analyzer">
+            <h2 class="section-title centered">Sequence Analysis</h2>
+            <div class="analysis-grid">
+                <div class="analysis-card">
+                    <h3>Nucleotide Distribution</h3>
+                    <div class="distribution-chart" id="distribution-chart">
+                        <div class="bar a-bar">
+                            <span class="base-label">A</span>
+                            <span class="base-count" id="count-a">0</span>
+                        </div>
+                        <div class="bar t-bar">
+                            <span class="base-label">T</span>
+                            <span class="base-count" id="count-t">0</span>
+                        </div>
+                        <div class="bar g-bar">
+                            <span class="base-label">G</span>
+                            <span class="base-count" id="count-g">0</span>
+                        </div>
+                        <div class="bar c-bar">
+                            <span class="base-label">C</span>
+                            <span class="base-count" id="count-c">0</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="analysis-card">
+                    <h3>Reverse Complement</h3>
+                    <div class="complement-display" id="complement-display">
+                        <span class="placeholder">Enter a sequence to see reverse complement</span>
+                    </div>
+                </div>
+                
+                <div class="analysis-card">
+                    <h3>Transcription</h3>
+                    <div class="transcription-display" id="transcription-display">
+                        <span class="placeholder">Enter a sequence to see mRNA transcript</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="features-section">
+            <h2 class="section-title centered">Features</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🧬</div>
+                    <h3>3D Helix Visualization</h3>
+                    <p>Real-time rendered DNA double helix with smooth animations and interactive rotation.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Instant Analysis</h3>
+                    <p>GC content calculation, molecular weight estimation, and nucleotide counting in milliseconds.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔄</div>
+                    <h3>Sequence Tools</h3>
+                    <p>Generate reverse complements, mRNA transcripts, and basic codon insights.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎨</div>
+                    <h3>Beautiful Design</h3>
+                    <p>Modern UI with gradient effects, smooth animations, and responsive layout.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="about-section" id="about">
+            <div class="about-card">
+                <h2 class="section-title">About This Project</h2>
+                <p>
+                    <strong>DNA Helicase</strong> is an interactive bioinformatics visualization tool built to 
+                    make DNA sequences tangible and engaging. Whether you're a student, researcher, or curious 
+                    mind, this tool helps you explore the fundamentals of life.
+                </p>
+                <div class="tech-stack">
+                    <span class="tech-badge">HTML5 Canvas</span>
+                    <span class="tech-badge">Vanilla JS</span>
+                    <span class="tech-badge">CSS3</span>
+                    <span class="tech-badge">No Dependencies</span>
+                </div>
+                <p class="author">Built by a student passionate about biology × technology 🚀</p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>Made with 💜 for science • Open source on GitHub</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
